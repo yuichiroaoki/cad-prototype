@@ -34,6 +34,7 @@
 		container.appendChild(renderer.domElement);
 
 		const loader = new STLLoader();
+		// https://github.com/mrdoob/three.js/blob/master/examples/models/stl/ascii/slotted_disk.stl
 		loader.load('src/lib/images/slotted_disk.stl', function (geometry: any) {
 			const material = new THREE.MeshPhongMaterial({
 				color: 0xff9c7c,
