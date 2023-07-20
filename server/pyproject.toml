@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "server"
+version = "0.1.0"
+description = ""
+authors = ["yuichiroaoki <45054071+yuichiroaoki@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.100.0"
+cadquery = "^2.3.1"
+ocp-freecad-cam = "^0.9.4"
+uvicorn = {extras = ["standard"], version = "^0.23.1"}
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+ruff = "^0.0.278"
+httpx = "^0.24.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
