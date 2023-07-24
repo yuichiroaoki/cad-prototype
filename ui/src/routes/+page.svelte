@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Download3d from './Download3d.svelte';
 	import GridLine from './GridLine.svelte';
-	import UploadPdf from './UploadPdf.svelte';
+	import UploadImg from './UploadImg.svelte';
 
 	let uploaded: boolean = false;
 </script>
@@ -12,7 +12,7 @@
 </svelte:head>
 
 <section>
-	<UploadPdf />
+	<UploadImg />
 	{#if uploaded}
 		<Download3d />
 		<GridLine />

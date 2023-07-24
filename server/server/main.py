@@ -11,6 +11,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:4173",
 ]
 
 
@@ -45,6 +46,10 @@ async def upload_image(file: UploadFile, vertical: int, area_threshold: int):
         buffer.write(await file.read())
 
     process.process_image(img_path, vertical, area_threshold)
+    return {"status": "ok"}
+
+@app.get("/load/image")
+async def load_image():
     return FileResponse("images/result.jpg")
 
 def start():
