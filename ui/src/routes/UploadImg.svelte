@@ -26,7 +26,11 @@
 			console.log(files[0]);
 		}
 		axios
-			.post(`http://127.0.0.1:8000/upload/image?vertical=${vertical}&area_threshold=1000`, formData, config)
+			.post(
+				`http://127.0.0.1:8000/upload/image?vertical=${vertical}&area_threshold=1000`,
+				formData,
+				config
+			)
 			.then(function (response) {
 				console.log(response);
 				isUploaded = true;
@@ -45,14 +49,10 @@
 {/if}
 
 <form on:submit|preventDefault={submit}>
-    <label>
-        縦の長さ（cm）
-        <input
-		 name="vertical" type="number"
-		 on:change={handleVertical}
-		 required
-		 >
-    </label>
+	<label>
+		縦の長さ（cm）
+		<input name="vertical" type="number" on:change={handleVertical} required />
+	</label>
 	<input accept=".jpg, .jpeg, .png" type="file" bind:files />
 	<button type="submit">送信</button>
 </form>
