@@ -7,11 +7,14 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.11, <3.13"
 fastapi = "^0.100.0"
-cadquery = "^2.3.1"
-ocp-freecad-cam = "^0.9.4"
 uvicorn = {extras = ["standard"], version = "^0.23.1"}
+python-multipart = "^0.0.6"
+opencv-python = "^4.8.0.74"
+scipy = "^1.11.1"
+numpy = "^1.25.1"
+imutils = "^0.5.4"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -22,3 +25,6 @@ httpx = "^0.24.1"
 [build-system]
 requires = ["poetry-core>=1.5.1"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "server.main:start"

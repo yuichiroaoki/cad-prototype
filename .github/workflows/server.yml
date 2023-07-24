@@ -14,8 +14,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10"]
-        poetry-version: ["1.1.15"]
+        python-version: ["3.11"]
+        poetry-version: ["1.5.1"]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     defaults:
@@ -26,26 +26,22 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Run image
         uses: abatilo/actions-poetry@v2
         with:
           poetry-version: ${{ matrix.poetry-version }}
 
-      - name: Setup FreeCAD
+      - name: Setup a local virtual environment (if no poetry.toml file)
         run: |
-          mkdir $PWD/freecad
-          cd $PWD/freecad
-          wget -O freecad.AppImage https://github.com$(curl -v --silent https://github.com/FreeCAD/FreeCAD-Bundle/releases/expanded_assets/weekly-builds 2>&1 | sed -n 's/.*href="\([^"]*\).*/\1/p' | grep x86_64 | grep AppImage$)
-          chmod +x freecad.AppImage
-          ./freecad.AppImage --appimage-extract > /dev/null 
-          export PYTHONPATH=.:$PWD/../src:$PWD/squashfs-root/usr/lib:$PWD/squashfs-root/usr/Mod/Path:$PWD/squashfs-root/usr/lib/python3.10/site-packages/
-          echo "PYTHONPATH=$PYTHONPATH" >> $GITHUB_ENV
+          poetry config virtualenvs.create true --local
+          poetry config virtualenvs.in-project true --local
 
-      - name: Test FreeCAD is available
-        run: |
-          echo $PYTHONPATH
-          python -c "import sys; print(sys.path)"
-          python -c "import FreeCAD"
+      - uses: actions/cache@v3
+        name: Define a cache for the virtual environment based on the dependencies lock file
+        with:
+          path: ./.venv
+          key: venv-${{ hashFiles('poetry.lock') }}
 
       - name: Install the project dependencies
         run: poetry install

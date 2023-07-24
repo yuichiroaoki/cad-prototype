@@ -1,6 +1,9 @@
 <script lang="ts">
-	import Counter from './Counter.svelte';
+	import Download3d from './Download3d.svelte';
 	import GridLine from './GridLine.svelte';
+	import UploadImg from './UploadImg.svelte';
+
+	let uploaded: boolean = false;
 </script>
 
 <svelte:head>
@@ -9,8 +12,11 @@
 </svelte:head>
 
 <section>
-	<Counter />
-	<GridLine />
+	<UploadImg />
+	{#if uploaded}
+		<Download3d />
+		<GridLine />
+	{/if}
 </section>
 
 <style>

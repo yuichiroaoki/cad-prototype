@@ -50,19 +50,23 @@
 
 		container.appendChild(renderer.domElement);
 
-
 		// Lights
 		scene.add(new THREE.HemisphereLight(0x8d7c7c, 0x494966, 3));
 
 		const controls = new OrbitControls(camera, renderer.domElement);
+		controls.mouseButtons = {
+			LEFT: THREE.MOUSE.PAN,
+			MIDDLE: THREE.MOUSE.DOLLY,
+			RIGHT: THREE.MOUSE.ROTATE
+		};
 		controls.target.set(0, 0, 2);
 		controls.update();
 
 		animate();
 
 		function animate() {
-			requestAnimationFrame( animate );
-			renderer.render( scene, camera );
+			requestAnimationFrame(animate);
+			renderer.render(scene, camera);
 		}
 
 		// Clean up the Three.js scene on component unmount

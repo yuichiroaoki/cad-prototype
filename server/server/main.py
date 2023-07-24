@@ -1,8 +1,9 @@
 from pydantic import BaseModel
+import uvicorn
 
-from fastapi import FastAPI
-from fastapi.responses import FileResponse
-from server.path import cq_profile
+from fastapi import FastAPI, UploadFile
+from fastapi.responses import FileResponse 
+from server.measure import process
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -10,6 +11,7 @@ app = FastAPI()
 origins = [
     "http://localhost",
     "http://localhost:5173",
+    "http://localhost:4173",
 ]
 
 
@@ -32,11 +34,24 @@ def read_root():
 def health_check():
     return {"status": "ok"}
 
-@app.post("/gcode/profile")
-async def use_profile(conf: PathConfig):
-    cq_profile.run_cq_profile(conf.diameter)
-    return {"status": "ok"}
-
 @app.get("/load/model/{model_id}")
 async def load_model(model_id: str):
     return FileResponse(f"data/{model_id}.stl")
+
+@app.post("/upload/image")
+async def upload_image(file: UploadFile, vertical: int, area_threshold: int):
+    # save image
+    img_path = f"images/{file.filename}"
+    with open(img_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    process.process_image(img_path, vertical, area_threshold)
+    return {"status": "ok"}
+
+@app.get("/load/image")
+async def load_image():
+    return FileResponse("images/result.jpg")
+
+def start():
+    """Launched with `poetry run start` at root level"""
+    uvicorn.run("server.main:app", host="0.0.0.0", port=8000, reload=False)
