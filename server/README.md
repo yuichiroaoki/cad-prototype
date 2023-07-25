@@ -14,3 +14,9 @@ poetry run start
 ```bash
 poetry run ruff check .
 ```
+
+
+# Export requirements
+```bash
+poetry export -f requirements.txt --output requirements.txt
+```

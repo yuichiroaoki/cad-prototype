@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 import uvicorn
-
+import os
 from fastapi import FastAPI, UploadFile
 from fastapi.responses import FileResponse 
 from server.measure import process
@@ -12,6 +12,7 @@ origins = [
     "http://localhost",
     "http://localhost:5173",
     "http://localhost:4173",
+    "https://cad-prototype.pages.dev",
 ]
 
 
@@ -55,3 +56,6 @@ async def load_image():
 def start():
     """Launched with `poetry run start` at root level"""
     uvicorn.run("server.main:app", host="0.0.0.0", port=8000, reload=False)
+
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
