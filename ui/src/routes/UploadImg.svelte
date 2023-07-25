@@ -51,8 +51,8 @@
 
 <form on:submit|preventDefault={submit}>
 	<label>
-		縦の長さ（cm）
-		<input name="vertical" type="number" on:change={handleVertical} required />
+		縦の長さ（mm）
+		<input name="vertical" type="number" step="any" on:change={handleVertical} required />
 	</label>
 	<input accept=".jpg, .jpeg, .png" type="file" bind:files />
 	<button type="submit">送信</button>

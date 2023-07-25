@@ -40,7 +40,7 @@ async def load_model(model_id: str):
     return FileResponse(f"data/{model_id}.stl")
 
 @app.post("/upload/image")
-async def upload_image(file: UploadFile, vertical: int, area_threshold: int):
+async def upload_image(file: UploadFile, vertical: float, area_threshold: int):
     # save image
     img_path = f"images/{file.filename}"
     with open(img_path, "wb") as buffer:
@@ -49,9 +49,27 @@ async def upload_image(file: UploadFile, vertical: int, area_threshold: int):
     process.process_image(img_path, vertical, area_threshold)
     return {"status": "ok"}
 
+@app.post("/upload/image/pixel")
+async def upload_image_with_pixel_per_mm(
+    file: UploadFile, 
+    pixel_per_mm: float, 
+    area_threshold: int):
+    # save image
+    img_path = f"images/{file.filename}"
+    with open(img_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    process.process_image_with_pixel_per_mm(img_path, pixel_per_mm, area_threshold)
+    return {"status": "ok"}
+
+
 @app.get("/load/image")
 async def load_image():
     return FileResponse("images/result.jpg")
+
+@app.get("/load/image/pixel")
+async def load_image_with_pixel_per_mm():
+    return FileResponse("images/result_with_pixel.jpg")
 
 def start():
     """Launched with `poetry run start` at root level"""
