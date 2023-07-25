@@ -1,6 +1,7 @@
 <!-- upload an image -->
 
 <script lang="ts">
+	import { BACKEND_URL } from '$lib/constants/backend';
 	import axios from 'axios';
 
 	let files: FileList | null = null;
@@ -27,7 +28,7 @@
 		}
 		axios
 			.post(
-				`http://127.0.0.1:8000/upload/image?vertical=${vertical}&area_threshold=1000`,
+				`${BACKEND_URL}/upload/image?vertical=${vertical}&area_threshold=1000`,
 				formData,
 				config
 			)
@@ -57,7 +58,7 @@
 	<button type="submit">送信</button>
 </form>
 {#if isUploaded}
-	<img class="result" src="http://localhost:8000/load/image" alt="result" />
+	<img class="result" src={`${BACKEND_URL}/load/image`} alt="result" />
 {/if}
 
 <style>
